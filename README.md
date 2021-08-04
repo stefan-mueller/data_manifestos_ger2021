@@ -3,17 +3,16 @@
 
 Repository containing manifestos of the main parties competing in the
 2021 German federal elections (26 September 2021). The repository
-currently contains the manifesto versions listed below. I will update
-the files when all parties have published their final manifestos.
+currently contains the manifesto versions listed below.
 
-| Party      | Description                                                                                                                                |
-|------------|--------------------------------------------------------------------------------------------------------------------------------------------|
-| AfD        | [Final version (20 May 2021)](https://cdn.afd.tools/wp-content/uploads/sites/111/2021/05/2021-05-20-_-AfD-Bundestagswahlprogramm-2021.pdf) |
-| CDU/CSU    | [Final version (21 June 2021)](https://www.csu.de/common/download/Regierungsprogramm.pdf)                                                  |
-| FDP        | [Final version (16 May 2021)](https://www.fdp.de/sites/default/files/2021-06/FDP_Programm_Bundestagswahl2021_1.pdf)                        |
-| Greens     | [Draft (13 June 2021)](https://cms.gruene.de/uploads/documents/2021_Wahlprogrammentwurf.pdf)                                               |
-| Left Party | [Draft (20 June 2021)](https://www.die-linke.de/fileadmin/download/wahlen2021/BTWP21_Entwurf_Vorsitzende.pdf)                              |
-| SPD        | [Final version (9 May 2021)](https://www.spd.de/fileadmin/Dokumente/Beschluesse/Programm/SPD-Zukunftsprogramm.pdf)                         |
+| Party    | Description                                                                                                                  |
+|----------|------------------------------------------------------------------------------------------------------------------------------|
+| AfD      | [Final version](https://cdn.afd.tools/wp-content/uploads/sites/111/2021/05/2021-05-20-_-AfD-Bundestagswahlprogramm-2021.pdf) |
+| CDU/CSU  | [Final version](https://www.csu.de/common/download/Regierungsprogramm.pdf)                                                   |
+| FDP      | [Final version](https://www.fdp.de/sites/default/files/2021-06/FDP_Programm_Bundestagswahl2021_1.pdf)                        |
+| Greens   | [Final version](https://www.gruene.de/artikel/wahlprogramm-zur-bundestagswahl-2021)                                          |
+| The Left | [Final version](https://www.die-linke.de/fileadmin/download/wahlen2021/BTWP21_Entwurf_Vorsitzende.pdf)                       |
+| SPD      | [Final version](https://www.spd.de/fileadmin/Dokumente/Beschluesse/Programm/SPD-Zukunftsprogramm.pdf)                        |
 
 ## Files
 
@@ -28,7 +27,17 @@ The repository contains the manifestos in the following formats:
     files of the cleaned PDFs
 -   **Corpus**: the file `data_corpus_manifestos_ger2021.rds` contains
     all party manifestos as a [**quanteda**](https://quanteda.io) text
-    corpus
+    corpus. The corpus object also includes meta data on each variables,
+    including the party codes for the [ParlGov](http://www.parlgov.org)
+    and the [Manifesto Project](https://manifesto-project.wzb.eu)
+    datasets.
+
+**Note**: I [manually checked the txt files for
+errors](https://github.com/stefan-mueller/data_manifestos_ger2021/commit/852923fb96c2393689fb1ccbc2ed15312517d67a)
+resulting from hyphenation in the original documents. Yet, the txt files
+may still contain errors. Please check the raw texts carefully before
+you use them for your own research Feel free to push a clean and updated
+file to this repository.
 
 ## Example
 
@@ -45,23 +54,36 @@ library(ggplot2)
 ## Load text corpus
 data_corpus_manifestos_ger2021 <- readRDS("data_corpus_manifestos_ger2021.rds")
 
-## Tokenize corpus and transform to document feature matrix
+## Get summary of corpus
+textstat_summary(data_corpus_manifestos_ger2021)
+```
+
+    ##   document  chars sents tokens types puncts numbers symbols urls tags emojis
+    ## 1      AfD 211352  1576  29101  6987   3194     161       3    0    0      0
+    ## 2  CDU/CSU 347388  2656  49203  8613   6078     188       0    0    0      0
+    ## 3      FDP 290037  2093  39577  7940   4042     113       6    0    0      0
+    ## 4   Greens 543449  3678  76685 12257   8735     205       1    0    0      0
+    ## 5      SPD 186762  1494  26774  5731   3113     110       0    0    0      0
+    ## 6 The Left 551568  4605  79424 12457   9975     445       0    0    1      0
+
+``` r
+## Tokenize corpus and transform to document-feature matrix
 dfmat_man <- data_corpus_manifestos_ger2021 %>% 
   tokens(remove_punct = TRUE, remove_numbers = TRUE) %>% 
   tokens_compound(phrase("* innen")) %>%  # compound *innen
   tokens_remove(pattern = c(stopwords("de"), "dass")) %>% 
-  dfm() 
+  dfm()
 
 
 ## Get most frequent words by party
 tstat_freq <- textstat_frequency(dfmat_man, 
-                                 groups = party, 
+                                 groups = party_name_short, 
                                  n = 10)
 
 ## Plot most frequent words
 ggplot(data = tstat_freq, aes(x = factor(nrow(tstat_freq):1), y = frequency)) +
   geom_point() +
-  facet_wrap(~ group, scales = "free_y") +
+  facet_wrap(~group, scales = "free_y") +
   coord_flip() +
   scale_x_discrete(breaks = nrow(tstat_freq):1,
                    labels = tstat_freq$feature) +
@@ -76,8 +98,8 @@ ggplot(data = tstat_freq, aes(x = factor(nrow(tstat_freq):1), y = frequency)) +
 Feel free to use the manifestos or edited files for your own work.
 Please cite the data as follows:
 
-Stefan Müller 2021. *2021 German federal election manifestos*. Version
-0.1: <https://github.com/stefan-mueller/data_manifestos_ger2021>.
+Stefan Müller. 2021. *2021 German federal election manifestos*. Version
+0.2: <https://github.com/stefan-mueller/data_manifestos_ger2021>.
 
 If you have any questions or suggestions, please file a [GitHub
 issue](https://github.com/stefan-mueller/data_manifestos_ger2021/issues)
