@@ -36,8 +36,9 @@ The repository contains the manifestos in the following formats:
 errors](https://github.com/stefan-mueller/data_manifestos_ger2021/commit/852923fb96c2393689fb1ccbc2ed15312517d67a)
 resulting from hyphenation in the original documents. Yet, the txt files
 may still contain errors. Please check the raw texts carefully before
-you use them for your own research Feel free to push a clean and updated
-file to this repository.
+you use them in research projects. Feel free to
+[push](https://docs.github.com/en/github/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests)
+cleaner txt files to this repository if you adjusted texts manually.
 
 ## Example
 
