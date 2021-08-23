@@ -14,6 +14,7 @@ Party | Description
 AfD | [Final version](https://cdn.afd.tools/wp-content/uploads/sites/111/2021/05/2021-05-20-_-AfD-Bundestagswahlprogramm-2021.pdf)
 CDU/CSU | [Final version](https://www.csu.de/common/download/Regierungsprogramm.pdf)
 FDP | [Final version](https://www.fdp.de/sites/default/files/2021-06/FDP_Programm_Bundestagswahl2021_1.pdf)
+Freie Wähler | [Final version](https://www.freiewaehler.eu/unsere-politik/wahlprogramm/)
 Greens | [Final version](https://www.gruene.de/artikel/wahlprogramm-zur-bundestagswahl-2021)
 The Left | [Final version](https://www.die-linke.de/fileadmin/download/wahlen2021/BTWP21_Entwurf_Vorsitzende.pdf)
 SPD | [Final version](https://www.spd.de/fileadmin/Dokumente/Beschluesse/Programm/SPD-Zukunftsprogramm.pdf)
@@ -50,7 +51,7 @@ textstat_summary(data_corpus_manifestos_ger2021)
 ## Tokenize corpus and transform to document-feature matrix
 dfmat_man <- data_corpus_manifestos_ger2021 %>% 
   tokens(remove_punct = TRUE, remove_numbers = TRUE) %>% 
-  tokens_compound(phrase("* innen")) %>%  # compound *innen
+  tokens_compound(phrase("* *innen")) %>%  # compound *innen
   tokens_remove(pattern = c(stopwords("de"), "dass")) %>% 
   dfm()
 
@@ -70,7 +71,6 @@ ggplot(data = tstat_freq, aes(x = factor(nrow(tstat_freq):1), y = frequency)) +
   labs(x = NULL, y = "Most frequent words") +
   theme_minimal()
 ```
-
 
 ## Citation
 

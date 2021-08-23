@@ -5,14 +5,15 @@ Repository containing manifestos of the main parties competing in the
 2021 German federal elections (26 September 2021). The repository
 currently contains the manifesto versions listed below.
 
-| Party    | Description                                                                                                                  |
-|----------|------------------------------------------------------------------------------------------------------------------------------|
-| AfD      | [Final version](https://cdn.afd.tools/wp-content/uploads/sites/111/2021/05/2021-05-20-_-AfD-Bundestagswahlprogramm-2021.pdf) |
-| CDU/CSU  | [Final version](https://www.csu.de/common/download/Regierungsprogramm.pdf)                                                   |
-| FDP      | [Final version](https://www.fdp.de/sites/default/files/2021-06/FDP_Programm_Bundestagswahl2021_1.pdf)                        |
-| Greens   | [Final version](https://www.gruene.de/artikel/wahlprogramm-zur-bundestagswahl-2021)                                          |
-| The Left | [Final version](https://www.die-linke.de/fileadmin/download/wahlen2021/BTWP21_Entwurf_Vorsitzende.pdf)                       |
-| SPD      | [Final version](https://www.spd.de/fileadmin/Dokumente/Beschluesse/Programm/SPD-Zukunftsprogramm.pdf)                        |
+| Party        | Description                                                                                                                  |
+|--------------|------------------------------------------------------------------------------------------------------------------------------|
+| AfD          | [Final version](https://cdn.afd.tools/wp-content/uploads/sites/111/2021/05/2021-05-20-_-AfD-Bundestagswahlprogramm-2021.pdf) |
+| CDU/CSU      | [Final version](https://www.csu.de/common/download/Regierungsprogramm.pdf)                                                   |
+| FDP          | [Final version](https://www.fdp.de/sites/default/files/2021-06/FDP_Programm_Bundestagswahl2021_1.pdf)                        |
+| Freie Wähler | [Final version](https://www.freiewaehler.eu/unsere-politik/wahlprogramm/)                                                    |
+| Greens       | [Final version](https://www.gruene.de/artikel/wahlprogramm-zur-bundestagswahl-2021)                                          |
+| The Left     | [Final version](https://www.die-linke.de/fileadmin/download/wahlen2021/BTWP21_Entwurf_Vorsitzende.pdf)                       |
+| SPD          | [Final version](https://www.spd.de/fileadmin/Dokumente/Beschluesse/Programm/SPD-Zukunftsprogramm.pdf)                        |
 
 ## Files
 
@@ -59,19 +60,28 @@ data_corpus_manifestos_ger2021 <- readRDS("data_corpus_manifestos_ger2021.rds")
 textstat_summary(data_corpus_manifestos_ger2021)
 ```
 
-    ##   document  chars sents tokens types puncts numbers symbols urls tags emojis
-    ## 1      AfD 211352  1576  29101  6987   3194     161       3    0    0      0
-    ## 2  CDU/CSU 347388  2656  49203  8613   6078     188       0    0    0      0
-    ## 3      FDP 290037  2093  39577  7940   4042     113       6    0    0      0
-    ## 4   Greens 543449  3678  76685 12257   8735     205       1    0    0      0
-    ## 5      SPD 186762  1494  26774  5731   3113     110       0    0    0      0
-    ## 6 The Left 551568  4605  79424 12457   9975     445       0    0    1      0
+    ##       document  chars sents tokens types puncts numbers symbols urls tags
+    ## 1          AfD 211352  1576  29101  6987   3194     161       3    0    0
+    ## 2      CDU/CSU 347388  2656  49203  8613   6078     188       0    0    0
+    ## 3          FDP 290037  2093  39577  7940   4042     113       6    0    0
+    ## 4 Freie Wähler 266879  2085  37568  7602   4089      91       2    0    0
+    ## 5       Greens 543449  3678  76685 12257   8735     205       1    0    0
+    ## 6          SPD 186762  1494  26774  5731   3113     110       0    0    0
+    ## 7     The Left 551568  4605  79424 12457   9975     445       0    0    1
+    ##   emojis
+    ## 1      0
+    ## 2      0
+    ## 3      0
+    ## 4      0
+    ## 5      0
+    ## 6      0
+    ## 7      0
 
 ``` r
 ## Tokenize corpus and transform to document-feature matrix
 dfmat_man <- data_corpus_manifestos_ger2021 %>% 
   tokens(remove_punct = TRUE, remove_numbers = TRUE) %>% 
-  tokens_compound(phrase("* innen")) %>%  # compound *innen
+  tokens_compound(phrase("* *innen")) %>%  # compound *innen
   tokens_remove(pattern = c(stopwords("de"), "dass")) %>% 
   dfm()
 
