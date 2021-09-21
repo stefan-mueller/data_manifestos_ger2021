@@ -39,7 +39,9 @@ resulting from hyphenation in the original documents. Yet, the txt files
 may still contain errors. Please check the raw texts carefully before
 you use them in research projects. Feel free to
 [push](https://docs.github.com/en/github/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests)
-cleaner txt files to this repository if you adjusted texts manually.
+cleaner txt files to this repository if you adjusted texts manually. I
+thank Corinna Doll for providing adjusted txt files for some of the
+manifestos.
 
 ## Example
 
