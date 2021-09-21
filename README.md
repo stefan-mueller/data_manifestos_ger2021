@@ -61,7 +61,7 @@ textstat_summary(data_corpus_manifestos_ger2021)
 ```
 
     ##       document  chars sents tokens types puncts numbers symbols urls tags
-    ## 1          AfD 211352  1576  29101  6987   3194     161       3    0    0
+    ## 1          AfD 192214  1432  26486  6959   2940     155       2    0    0
     ## 2      CDU/CSU 347388  2656  49203  8613   6078     188       0    0    0
     ## 3          FDP 290037  2093  39577  7940   4042     113       6    0    0
     ## 4 Freie Wähler 266879  2085  37568  7602   4089      91       2    0    0
